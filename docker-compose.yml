@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  qrbadge:
+    build: .
+    container_name: qrbadge
+    ports:
+      - "3000:3000"
+    volumes:
+      - qrbadge_data:/usr/src/app/data
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflared
+    command: tunnel --config /home/docker/.cloudflared/config.yml run
+    volumes:
+      - /home/docker/.cloudflared
+    depends_on:
+      - qrbadge
+    restart: unless-stopped
+
+volumes:
+  qrbadge_data:
