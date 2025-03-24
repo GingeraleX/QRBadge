@@ -4,11 +4,10 @@ const crypto = require("crypto");
 
 const db = require("../config/db");
 
-const deviceId = "321abc"; 
-// crypto.randomBytes(4).toString("hex");
+const deviceId = crypto.randomBytes(4).toString("hex");
 
 // Admin contact number (hard-coded for test)
-const contactNumber = "39321321321";
+const contactNumber = "390000000000";
 
 
 db.run(

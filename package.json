@@ -5,7 +5,7 @@
     "start": "node app.js",
     "dev": "npm run seed && concurrently \"npm run watch:css\" \"nodemon app.js\"",
     "watch:css": "tailwindcss -c tailwind/tailwind.config.js -i tailwind/input.css -o public/css/tailwind.css --watch",
-    "build": "cross-env NODE_ENV=production tailwindcss -c tailwind/tailwind.config.js -i tailwind/input.css -o public/css/tailwind.css --minify",
+    "build": "npm run seed && cross-env NODE_ENV=production tailwindcss -c tailwind/tailwind.config.js -i tailwind/input.css -o public/css/tailwind.css --minify",
     "seed": "node ./server/config/db.js && node ./server/utils/seedAdmin.js"
   },
   "devDependencies": {
