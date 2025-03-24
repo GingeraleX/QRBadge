@@ -1,5 +1,5 @@
 # 1) Use an official Node LTS image
-FROM node:18
+FROM node:20.9
 
 # 2) Create and use the /usr/src/app directory
 WORKDIR /usr/src/app

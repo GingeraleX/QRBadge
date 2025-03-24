@@ -12,9 +12,9 @@ services:
   cloudflared:
     image: cloudflare/cloudflared:latest
     container_name: cloudflared
-    command: tunnel --config /home/docker/.cloudflared/config.yml run
+    command: tunnel --config /etc/cloudflared/config.yml run
     volumes:
-      - /home/docker/.cloudflared
+      - /home/docker/.cloudflared:/etc/cloudflared/config.yml
     depends_on:
       - qrbadge
     restart: unless-stopped
