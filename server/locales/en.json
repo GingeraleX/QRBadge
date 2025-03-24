@@ -1,0 +1,70 @@
+{
+  "common": {
+    "errors": {
+      "adminIdRequired": "Admin ID is required.",
+      "contactNumberRequired": "Contact number is required.",
+      "userNotFound": "User not found.",
+      "noMatchingRecord": "No matching record."
+    }
+  },
+
+  "admin": {
+    "errors": {
+      "adminIdUserIdRequired": "Admin ID and User ID are required.",
+      "deviceMismatch": "No matching admin found or device mismatch.",
+      "noAdminUserLink": "No admin-user link found.",
+      "userLimitReached": "You have reached the maximum of 10 approved users."
+    },
+    "success": {
+      "created": "Admin created successfully.",
+      "recognized": "Admin recognized.",
+      "userApproved": "User approved.",
+      "userRejected": "User rejected, banned until {{banDate}}."
+    }
+  },
+  "locations": {
+    "errors": {
+      "locationIdRequired": "Location ID is required.",
+      "locationNotFound": "Location not found.",
+      "adminIdNameRequired": "Admin ID and name are required.",
+      "notApproved": "User not approved for this admin’s location.",
+      "locationLimitReached": "You have reached the maximum of 50 locations."
+    },
+    "success": {
+      "locationCreated": "Location created."
+    }
+  },
+
+  "session": {
+    "errors": {
+      "latLongRequired": "Latitude and longitude are required.",
+      "tooFar": "Too far from the location.",
+      "noActiveSession": "No active session.",
+      "userNotInRequest": "User not found in the request."
+    },
+    "success": {
+      "start": "Session started!",
+      "stop": "Session stopped!"
+    }
+  },
+
+  "user": {
+    "errors": {
+      "contactNumberAdminIdDeviceIdRequired": "Contact number, Admin ID, and device ID are required.",
+      "adminIdContactNumberRequired": "Admin ID and contact number are required.",
+      "adminIdUserIdNewNameRequired": "Admin ID, User ID, and newName are required.",
+      "noAdminUserLink": "No admin-user link found.",
+      "adminIdUserIdRequired": "Admin ID and User ID are required.",
+      "bannedUntil": "Banned until {{bannedUntil}}. Cannot re-request now."
+    },
+    "status": {
+      "notFound": "not_found"
+    },
+    "messages": {
+      "approvalRequestSent": "Approval request sent. Contact admin.",
+      "deviceChangedStatus": "Device ID changed. Refresh the page. Your status = {{status}}.",
+      "displayNameUpdated": "User display name updated.",
+      "userRevoked": "User revoked (history remains)."
+    }
+  }
+}

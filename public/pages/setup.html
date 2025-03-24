@@ -1,0 +1,98 @@
+<!-- SETUP PAGE SECTION -->
+<section id="setup" class="main bg-base-200 min-h-screen p-4 flex flex-col items-center gap-4">
+    <!-- Disclaimer or brief explanation -->
+    <div id="intro-card" class="card shadow-lg bg-base-100 max-w-md lg:max-w-lg mx-auto">
+        <!-- Logo centered at the top -->
+        <figure class="pt-6 flex justify-center">
+            <!-- Replace 'assets/logo.png' with your actual logo path -->
+            <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="
+    w-full h-auto
+    max-h-12
+    sm:max-h-12
+    md:max-h-14
+    lg:max-h-16"
+                    viewBox="0 0 1024 256"
+            >
+                <path class="st0" d="M661.46,164.52h89.64V77.37h-89.64V164.52z M678.89,94.8h54.78v52.29h-54.78V94.8z"/>
+                <polygon class="st0" points="922.91,94.8 922.91,77.37 860.66,77.37 860.66,164.52 922.91,164.52 922.91,147.09 878.09,147.09 
+		878.09,129.66 922.91,129.66 922.91,112.23 878.09,112.23 878.09,94.8 	"/>
+                <path class="st0" d="M828.3,77.51v-0.15h-62.25v0.01h-0.01v87.15h17.43v-0.01h44.83l17.43-17.43V94.79h-0.15L828.3,77.51z
+		 M828.3,139.86L828.3,139.86l-7.22,7.22h-37.61V94.79h37.47l7.36,7.36V139.86z"/>
+                <path class="st0" d="M584.92,77.37v-0.01h-17.49l0,0.01h-0.26l-0.23,1.73l0.08,1.29l-7.78,57.84l-1.91,14.22
+		c-1.96,14.42-10.68,27.31-23.35,34.46l-4.54,2.56v20.44l13.07-7.89c14.49-8.18,25.21-21.84,29.92-37.63l0.01,0.13
+		c0.69-2.36,1.25-4.77,1.67-7.21c0.15-0.84,0.29-1.69,0.4-2.55l2.1-15.62l5.97-44.34h46.26v69.72h17.43V77.37H584.92L584.92,77.37z"
+                />
+                <path class="st0" d="M101.09,164.52h17.43v-17.43h52.29v17.43h17.43V77.37h-87.15C101.09,77.37,101.09,164.52,101.09,164.52z
+		 M118.52,94.8h52.29v34.86h-52.29V94.8z"/>
+                <polygon class="st0"
+                         points="203.18,164.52 220.61,164.52 220.61,94.8 265.43,94.8 265.43,77.37 203.18,77.37 	"/>
+                <polygon class="st0" points="280.36,164.52 360.73,164.52 360.73,147.09 297.8,147.09 297.8,94.8 360.73,94.8 360.73,77.37 
+		280.36,77.37 	"/>
+                <path class="st0" d="M464.84,152.46l-1.86-13.85l-8.13-60.4l-0.11-0.84h-17.75h-61.31v87.15h17.43v-17.43h53.51l1.04,7.68
+		c0.22,1.7,0.52,3.38,0.89,5.04c0.34,1.59,0.73,3.16,1.19,4.71l0.01-0.09c4.7,15.78,15.43,29.42,29.9,37.6l13.07,7.38v-19.93
+		l-4.54-2.56C475.51,179.78,466.78,166.89,464.84,152.46z M393.11,129.66V94.8h46.47l4.66,34.61l0.03,0.25H393.11z"/>
+                <path class="st0" d="M511.08,46.08l-40.55,23.86l24.3-5.39c5.31-1.18,10.45,2.55,10.97,7.96l5.27,53.91l5.27-53.91
+		c0.53-5.41,5.67-9.14,10.97-7.96l24.31,5.39L511.08,46.08z"/>
+            </svg>
+        </figure>
+        <div class="divider mb-0 p-4"></div>
+        <div class="card-body mb-6 items-center text-center">
+            <h2
+                    class="card-title text-2xl"
+                    data-i18n="setup.adminDevice.title"
+            >
+                Setup Admin Device
+            </h2>
+            <p
+                    class="text-sm mt-2"
+                    data-i18n="setup.adminDevice.description"
+            >
+                Enter the code I provide to grant your device elevated access.
+                This code-based approach ensures a smooth admin setup and
+                seamless management—soon, we’ll replace this manual step with a
+                fully automated feature.
+            </p>
+        </div>
+    </div>
+
+    <!-- Login / Registration card -->
+    <footer class="sticky bottom-0 mt-auto pb-0 max-w-md lg:max-w-lg w-full">
+        <div class="card shadow-lg compact bg-base-100">
+            <div class="card-body">
+                <h2
+                        class="card-title text-xl"
+                        data-i18n="setup.register.title"
+                >
+                    Register
+                </h2>
+                <p
+                        class="text-sm"
+                        data-i18n="setup.register.subtitle"
+                >
+                    Enter your admin identification code.
+                </p>
+
+                <form onsubmit="event.preventDefault(); doRegister();">
+                    <div class="flex items-center gap-4 mt-4">
+                        <input
+                                id="register-input"
+                                class="input input-bordered w-full"
+                                data-i18n-placeholder="setup.register.placeholder"
+                                placeholder="e.g. 5c74d7e7"
+                        />
+                        <button
+                                class="btn btn-primary"
+                                type="button"
+                                data-i18n="setup.register.btnContinue"
+                                onclick="doRegister()"
+                        >
+                            Continue
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </footer>
+</section>

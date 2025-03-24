@@ -1,0 +1,215 @@
+{
+
+  "home": {
+    "intro": {
+      "welcome": "Welcome to Geo-QR",
+      "tagline": "Simplify your check-ins and manage visits with ease. Our QR solution lets you check in instantly via your smartphone, ensuring a swift and contactless experience—no paperwork required."
+    },
+    "download": {
+      "android": "Download on Google Play",
+      "ios": "Download on the App Store"
+    },
+    "login": {
+      "title": "Login",
+      "subtitle": "Enter your phone number to sign in.",
+      "placeholderPhone": "e.g. 123456789",
+      "btnContinue": "Continue"
+    }
+  },
+
+
+  "admin": {
+    "usersPage": {
+      "title": "User Management",
+      "pendingApprovals": "Pending Approvals",
+      "registeredUsers": "Registered Users",
+      "approve": "Approve",
+      "reject": "Reject",
+      "rename": "Rename",
+      "revoke": "Revoke"
+    },
+    "sessionsPage": {
+      "title": "Sessions",
+      "activeSessions": "Active Sessions",
+      "sessionHistory": "Session History",
+      "filters": {
+        "userIdLabel": "User ID",
+        "locationIdLabel": "Location ID",
+        "startLabel": "Start",
+        "endLabel": "End",
+        "placeholderOptional": "optional",
+        "rows": "Rows per page"
+      },
+      "csvButton": "Download CSV",
+      "columns": {
+        "startTime": "Start Time",
+        "endTime": "End Time",
+        "duration": "Duration",
+        "userId": "User ID",
+        "location": "Location"
+      }
+    },
+    "errors": {
+      "userLimitReached": "You have reached the maximum of 10 approved users.",
+      "locationLimitReached": "You have reached the maximum of 50 locations.",
+      "missingLocationName": "Missing adminId or location name.",
+      "createLocationError": "Create location error: {{error}}"
+    },
+    "messages": {
+      "locationCreated": "New location created successfully. ID: {{locationId}}",
+      "downloadQrAsPng": "Download QR as PNG",
+      "noLocationsFound": "No locations found.",
+      "noResultsFound": "No results found."
+    },
+    "common": {
+      "noName": "(No Name)",
+      "device": "Device",
+      "status": "Status",
+      "enterDisplayName": "Enter new display name:"
+    },
+    "tableHeaders": {
+      "id": "ID",
+      "name": "Name",
+      "createdAt": "Created At",
+      "map": "Map",
+      "qr": "QR"
+    },
+    "locationsPage": {
+      "title": "Locations",
+      "locationNameLabel": "Name of new Location:",
+      "placeholderLocationName": "e.g. My Office",
+      "btnCreateGenerateQr": "Create QR",
+      "myLocations": "My Locations"
+    },
+    "footerNav": {
+      "users": "Users",
+      "sessions": "Sessions",
+      "locations": "Locations",
+      "settings": "Settings"
+    }
+  },
+
+  "settings": {
+      "title": "Settings",
+      "languageLabel": "Language",
+      "themeLabel": "Theme",
+      "phoneLabel": "Phone",
+      "loading": "Loading...",
+      "versionLabel": "Version",
+      "versionNumber": "1.0.0",
+      "needHelpLabel": "Need Help?",
+      "supportLink": "Visit Our Support Page",
+      "displayTimer": "Display Timer",
+      "userReportPage": "User Report Page",
+      "users": "Users",
+      "languages": {
+        "en": "English",
+        "it": "Italian"
+      },
+      "themes": {
+        "light": "Light",
+        "dark": "Dark",
+        "wireframe": "Retro",
+        "valentine": "Valentine",
+        "arcanode": "Arcanode"
+      }
+    },
+  
+  "geo": {
+    "loading": "Requesting your geolocation, please wait...",
+    "notSupported": "Geolocation is not supported by this browser.",
+    "noCoordsError": "Geolocation error: no coordinates returned.",
+    "deniedMessage": "You have denied location permission. Please enable it in your browser or device settings:\n\n• iOS: Open the Settings app > Privacy > Location Services > Safari Websites (or the app name if installed) and set to 'While Using' or 'Always'.\n• Make sure 'Precise Location' is also ON.\n\nThen reload.",
+    "pwaStandaloneMsg": "• Because you're running in a PWA (standalone mode), iOS Safari has known bugs with location prompts. You may need to open this app in regular Safari, or manually grant location in Settings.\n\n",
+    "promptIssueMsg": "We couldn't retrieve your location. This often happens on iOS Safari if the prompt doesn't appear.\n\nPlease check:\n• iOS Settings > Privacy > Location Services > Safari (or 'Safari Websites').\n• Set it to 'While Using' (or 'Allow') and enable 'Precise Location'.\n\n{{standaloneMsg}}After adjusting these settings, please reload."
+  },
+
+  "user": {
+    "dashboard": {
+      "title": "Dashboard",
+      "status": "Your current status...",
+      "locationLabel": "Location:",
+      "btnStart": "Start",
+      "btnStop": "Stop",
+      "report": "Go to Report"
+    },
+    "status": {
+      "approved": "✅ Approved! Ready to start a session.",
+      "pending": "⏳ Approval pending. Please wait.",
+      "rejected": "❌ {{status}} - banned until {{date}}"
+    },
+    "history": {
+      "title": "Report",
+      "stats": {
+        "locations": {
+          "title": "Locations",
+          "desc": "all time"
+        },
+        "hours": {
+          "title": "Hours",
+          "desc": "spent in sessions"
+        },
+        "checkIns": {
+          "title": "Check-Ins",
+          "desc": "since sign up"
+        }
+      },
+      "filters": {
+        "startLabel": "Start",
+        "endLabel": "End",
+        "csvButton": "Download CSV"
+      },
+      "table": {
+        "dateTime": "Date/Time",
+        "duration": "Duration",
+        "location": "Location"
+      }
+    },
+    "errors": {
+      "noLocationProvided": "No location provided. Can't register the user.",
+      "invalidLocationProvided": "Invalid location provided.",
+      "provideValidLocation": "Provide a valid location in the URL.",
+      "invalidContactNumber": "Invalid contact number provided.",
+      "provideValidContact": "Provide a valid contact number.",
+      "locationFetchError": "Location fetch error.",
+      "requestApprovalError": "Request Approval Error: {{err}}",
+      "startSessionError": "Start Session Error: {{err}}",
+      "stopSessionError": "Stop Session Error: {{err}}"
+    },
+    "sessions": {
+      "sessionRunning": "Session running...",
+      "sessionStarted": "Session started!",
+      "sessionStopped": "Session stopped! Duration: {{duration}} mins"
+    },
+    "footerNav": {
+      "dashboard": "Dashboard",
+      "history": "History",
+      "settings": "Settings"
+    }
+  },
+
+
+  "setup": {
+    "adminDevice": {
+      "title": "Setup Admin Device",
+      "description": "Enter the code I provide to grant your device elevated access. This code-based approach ensures a smooth admin setup and seamless management—soon, we’ll replace this manual step with a fully automated feature."
+    },
+    "register": {
+      "title": "Register",
+      "subtitle": "Enter your admin identification code.",
+      "placeholder": "e.g. 5c74d7e7",
+      "btnContinue": "Continue"
+    }
+  },
+
+
+  "modal": {
+    "error": {
+      "title": "Error",
+      "message": "Something went wrong. Please try again.",
+      "buttonClose": "Close",
+      "backdropClose": "Close"
+    }
+  }
+
+}

@@ -1,0 +1,70 @@
+{
+  "common": {
+    "errors": {
+      "adminIdRequired": "È richiesto l'ID Admin.",
+      "contactNumberRequired": "È richiesto il numero di contatto.",
+      "userNotFound": "Utente non trovato.",
+      "noMatchingRecord": "Nessun record corrispondente."
+    }
+  },
+
+  "admin": {
+    "errors": {
+      "adminIdUserIdRequired": "Sono richiesti l'ID Admin e l'ID Utente.",
+      "deviceMismatch": "Nessun admin corrispondente trovato o incompatibilità di dispositivo.",
+      "noAdminUserLink": "Nessun collegamento admin-utente trovato.",
+      "userLimitReached": "Hai raggiunto il limite massimo di 10 utenti approvati."
+    },
+    "success": {
+      "created": "Admin creato con successo.",
+      "recognized": "Admin riconosciuto.",
+      "userApproved": "Utente approvato.",
+      "userRejected": "Utente rifiutato, bannato fino al {{banDate}}."
+    }
+  },
+  "locations": {
+    "errors": {
+      "locationIdRequired": "È richiesto l'ID Posizione.",
+      "locationNotFound": "Posizione non trovata.",
+      "adminIdNameRequired": "Sono richiesti l'ID Admin e il nome.",
+      "notApproved": "Utente non approvato per la posizione di questo admin.",
+      "locationLimitReached": "Hai raggiunto il limite massimo di 50 posizioni."
+    },
+    "success": {
+      "locationCreated": "Posizione creata."
+    }
+  },
+
+  "session": {
+    "errors": {
+      "latLongRequired": "Sono richieste latitudine e longitudine.",
+      "tooFar": "Troppo distante dalla posizione.",
+      "noActiveSession": "Nessuna sessione attiva.",
+      "userNotInRequest": "Utente non presente nella richiesta."
+    },
+    "success": {
+      "start": "Sessione avviata!",
+      "stop": "Sessione terminata!"
+    }
+  },
+
+  "user": {
+    "errors": {
+      "contactNumberAdminIdDeviceIdRequired": "Sono richiesti il numero di contatto, l'ID Admin e l'ID dispositivo.",
+      "adminIdContactNumberRequired": "Sono richiesti l'ID Admin e il numero di contatto.",
+      "adminIdUserIdNewNameRequired": "Sono richiesti l'ID Admin, l'ID Utente e il nuovo nome.",
+      "noAdminUserLink": "Nessun collegamento admin-utente trovato.",
+      "adminIdUserIdRequired": "Sono richiesti l'ID Admin e l'ID Utente.",
+      "bannedUntil": "Bannato fino al {{bannedUntil}}. Impossibile ripresentare la richiesta ora."
+    },
+    "status": {
+      "notFound": "not_found"
+    },
+    "messages": {
+      "approvalRequestSent": "Richiesta di approvazione inviata. Contatta l'admin.",
+      "deviceChangedStatus": "ID dispositivo modificato. Ricarica la pagina. Il tuo stato = {{status}}.",
+      "displayNameUpdated": "Nome utente aggiornato.",
+      "userRevoked": "Utente revocato (storico conservato)."
+    }
+  }
+}

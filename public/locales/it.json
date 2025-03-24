@@ -1,0 +1,210 @@
+{
+  "home": {
+    "intro": {
+      "welcome": "Benvenuto/a su Geo-QR",
+      "tagline": "Semplifica i tuoi check-in e gestisci le visite con facilità. La nostra soluzione QR ti consente di effettuare il check-in in modo istantaneo tramite il tuo smartphone, garantendo un'esperienza rapida e senza contatto—niente più scartoffie."
+    },
+    "download": {
+      "android": "Scarica da Google Play",
+      "ios": "Scarica dall'App Store"
+    },
+    "login": {
+      "title": "Accesso",
+      "subtitle": "Inserisci il tuo numero di telefono per accedere.",
+      "placeholderPhone": "es. 123456789",
+      "btnContinue": "Continua"
+    }
+  },
+
+  "admin": {
+    "usersPage": {
+      "title": "Gestione Utenti",
+      "pendingApprovals": "Approvazioni in Attesa",
+      "registeredUsers": "Utenti Registrati",
+      "approve": "Approva",
+      "reject": "Rifiuta",
+      "rename": "Rinomina",
+      "revoke": "Revoca"
+    },
+    "sessionsPage": {
+      "title": "Sessioni",
+      "activeSessions": "Sessioni Attive",
+      "sessionHistory": "Storico Sessioni",
+      "filters": {
+        "userIdLabel": "ID Utente",
+        "locationIdLabel": "ID Posizione",
+        "startLabel": "Inizio",
+        "endLabel": "Fine",
+        "placeholderOptional": "opzionale",
+        "rows": "Righe per pagina"
+      },
+      "csvButton": "Scarica CSV",
+      "columns": {
+        "startTime": "Ora di Inizio",
+        "endTime": "Ora di Fine",
+        "duration": "Durata",
+        "userId": "ID Utente",
+        "location": "Posizione"
+      }
+    },
+    "errors": {
+      "userLimitReached": "Hai raggiunto il limite massimo di 10 utenti approvati.",
+      "locationLimitReached": "Hai raggiunto il limite massimo di 50 posizioni.",
+      "missingLocationName": "Mancano adminId o il nome della posizione.",
+      "createLocationError": "Errore nella creazione della posizione: {{error}}"
+    },
+    "messages": {
+      "locationCreated": "Nuova posizione creata con successo. ID: {{locationId}}",
+      "downloadQrAsPng": "Scarica QR in PNG",
+      "noLocationsFound": "Nessuna posizione trovata.",
+      "noResultsFound": "Nessun risultato trovato."
+    },
+    "common": {
+      "noName": "(Nessun Nome)",
+      "device": "Dispositivo",
+      "status": "Stato",
+      "enterDisplayName": "Inserisci il nuovo nome da visualizzare:"
+    },
+    "tableHeaders": {
+      "id": "ID",
+      "name": "Nome",
+      "createdAt": "Creato il",
+      "map": "Mappa",
+      "qr": "QR"
+    },
+    "locationsPage": {
+      "title": "Posizioni",
+      "locationNameLabel": "Nome della nuova Posizione:",
+      "placeholderLocationName": "es. Il Mio Ufficio",
+      "btnCreateGenerateQr": "Crea QR",
+      "myLocations": "Le Mie Posizioni"
+    },
+    "footerNav": {
+      "users": "Utenti",
+      "sessions": "Sessioni",
+      "locations": "Posizioni",
+      "settings": "Impostazioni"
+    }
+  },
+
+  "settings": {
+    "title": "Impostazioni",
+    "languageLabel": "Lingua",
+    "themeLabel": "Tema",
+    "phoneLabel": "Telefono",
+    "loading": "Caricamento...",
+    "versionLabel": "Versione",
+    "versionNumber": "1.0.0",
+    "needHelpLabel": "Hai bisogno di aiuto?",
+    "supportLink": "Visita la nostra pagina di supporto",
+    "displayTimer": "Mostra Timer",
+    "userReportPage": "Pagina Report",
+    "users": "Utenti",
+    "languages": {
+      "en": "Inglese",
+      "it": "Italiano"
+    },
+    "themes": {
+      "light": "Chiaro",
+      "dark": "Scuro",
+      "wireframe": "Retrò",
+      "valentine": "Valentine",
+      "arcanode": "Arcanode"
+    }
+  },
+  
+  "geo": {
+    "loading": "Geolocalizzazione in corso, attendere prego...",
+    "notSupported": "La geolocalizzazione non è supportata da questo browser.",
+    "noCoordsError": "Errore di geolocalizzazione: nessuna coordinata restituita.",
+    "deniedMessage": "Hai negato il permesso di localizzazione. Abilitalo nelle impostazioni del tuo browser o dispositivo:\n\n• iOS: Apri l'app Impostazioni > Privacy > Localizzazione > Siti Web di Safari (o il nome dell'app se installata) e imposta su 'Mentre usi' o 'Sempre'.\n• Assicurati che 'Posizione precisa' sia attiva.\n\nPoi ricarica la pagina.",
+    "pwaStandaloneMsg": "• Poiché stai eseguendo un PWA (modalità standalone), Safari su iOS ha bug noti con i prompt di localizzazione. Potresti dover aprire l'app in Safari normale o concedere manualmente l'autorizzazione alla posizione nelle Impostazioni.\n\n",
+    "promptIssueMsg": "Non è stato possibile ottenere la tua posizione. Questo accade spesso su Safari iOS se il prompt non compare.\n\nVerifica:\n• Impostazioni iOS > Privacy > Localizzazione > Safari (o 'Siti Web di Safari').\n• Imposta su 'Mentre usi' (o 'Consenti') e attiva 'Posizione precisa'.\n\n{{standaloneMsg}}Dopo aver regolato queste impostazioni, ricarica la pagina."
+  },
+  
+  "user": {
+    "dashboard": {
+      "title": "Dashboard",
+      "status": "Il tuo stato attuale...",
+      "locationLabel": "Posizione:",
+      "btnStart": "Avvia",
+      "btnStop": "Ferma",
+      "report": "Vai al Report"
+    },
+    "status": {
+      "approved": "✅ Approvato! Pronto per iniziare una sessione.",
+      "pending": "⏳ Approvazione in sospeso. Attendi...",
+      "rejected": "❌ {{status}} - bannato fino a {{date}}"
+    },
+    "history": {
+      "title": "Report",
+      "stats": {
+        "locations": {
+          "title": "Posizioni",
+          "desc": "di sempre"
+        },
+        "hours": {
+          "title": "Ore",
+          "desc": "trascorse in sessione"
+        },
+        "checkIns": {
+          "title": "Check-In",
+          "desc": "dalla registrazione"
+        }
+      },
+      "filters": {
+        "startLabel": "Inizio",
+        "endLabel": "Fine",
+        "csvButton": "Scarica CSV"
+      },
+      "table": {
+        "dateTime": "Data/Ora",
+        "duration": "Durata",
+        "location": "Posizione"
+      }
+    },
+    "errors": {
+      "noLocationProvided": "Nessuna posizione fornita. Impossibile registrare l'utente.",
+      "invalidLocationProvided": "Posizione non valida.",
+      "provideValidLocation": "Fornisci una posizione valida nell'URL.",
+      "invalidContactNumber": "Numero di contatto non valido.",
+      "provideValidContact": "Fornisci un numero di contatto valido.",
+      "locationFetchError": "Errore nel recupero della posizione.",
+      "requestApprovalError": "Errore nella richiesta di approvazione: {{err}}",
+      "startSessionError": "Errore nell'avvio della sessione: {{err}}",
+      "stopSessionError": "Errore nella chiusura della sessione: {{err}}"
+    },
+    "sessions": {
+      "sessionRunning": "Sessione in corso...",
+      "sessionStarted": "Sessione avviata!",
+      "sessionStopped": "Sessione terminata! Durata: {{duration}} min"
+    },
+    "footerNav": {
+      "dashboard": "Dashboard",
+      "history": "Storico",
+      "settings": "Impostazioni"
+    }
+  },
+
+  "setup": {
+    "adminDevice": {
+      "title": "Configura Dispositivo Admin",
+      "description": "Inserisci il codice che ti ho fornito per concedere al tuo dispositivo privilegi elevati. Questo approccio basato su codice assicura un'installazione Admin fluida e una gestione impeccabile—presto sostituiremo questo passaggio manuale con una funzionalità completamente automatizzata."
+    },
+    "register": {
+      "title": "Registra",
+      "subtitle": "Inserisci il tuo codice di identificazione Admin.",
+      "placeholder": "es. 5c74d7e7",
+      "btnContinue": "Continua"
+    }
+  },
+
+  "modal": {
+    "error": {
+      "title": "Errore",
+      "message": "Qualcosa è andato storto. Riprova.",
+      "buttonClose": "Chiudi",
+      "backdropClose": "Chiudi"
+    }
+  }
+}

@@ -1,0 +1,38 @@
+<dialog id="global-error-modal" class="modal">
+    <div class="modal-box">
+        <!-- Title -->
+        <h3
+                class="text-lg font-bold"
+                id="modal-error-title"
+                data-i18n="modal.error.title"
+        >
+            Error
+        </h3>
+
+        <!-- Message -->
+        <p
+                id="modal-error-message"
+                class="py-4"
+                data-i18n="modal.error.message"
+        >
+            <!-- This text can be replaced dynamically by JS or via i18n if you have a default message -->
+        </p>
+
+        <div class="modal-action">
+            <!-- Close Button -->
+            <button
+                    class="btn"
+                    type="button"
+                    data-i18n="modal.error.buttonClose"
+                    onclick="closeModal()"
+            >
+                Close
+            </button>
+        </div>
+    </div>
+
+    <!-- Clicking outside the dialog -->
+    <form method="dialog" class="modal-backdrop">
+        <button data-i18n="modal.error.backdropClose">close</button>
+    </form>
+</dialog>

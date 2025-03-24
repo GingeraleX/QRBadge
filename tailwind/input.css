@@ -1,0 +1,232 @@
+/* =========================
+   src/input.css
+   Tailwind + DaisyUI entry point for your webapp.
+   Compiles to public/css/tailwind.css 
+   when you run the build script.
+   ========================= */
+
+/* -----------------------------------
+   1) Tailwind Base Layers
+   (No extra @import needed; DaisyUI is in tailwind.config)
+----------------------------------- */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: 'UbuntuSans';
+    font-style: normal;
+    font-weight: 400; /* Regular */
+    src: url('../fonts/UbuntuSans-Regular.ttf') format('truetype');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'UbuntuSans';
+    font-style: normal;
+    font-weight: 700; /* Bold */
+    src: url('../fonts/UbuntuSans-Bold.ttf') format('truetype');
+    font-display: swap;
+}
+
+
+@layer base {
+    /* 
+     * When DaisyUI sets data-theme="ubuntu" 
+     * anywhere in your HTML (often on <html> or <body>),
+     * apply UbuntuSans as the default font family.
+     */
+    [data-theme="arcanode"] {
+        font-family: 'UbuntuSans', sans-serif;
+    }
+    
+}
+
+/* =========================
+   2) GLOBAL OVERRIDES/CLASSES
+   ========================= */
+
+.stat-value {
+    font-weight: 700 !important; /* Bold */
+}
+
+/* Example: fill color for SVG paths with .st0 class */
+.st0 {
+    fill: currentColor;
+}
+
+/* Set .iti container to full width if allow-dropdown is used */
+.iti.iti--allow-dropdown {
+    @apply w-full;
+}
+
+/* The flag container on the left side of phone input */
+.iti__flag-container {
+    @apply border-r border-gray-300;
+}
+
+.stat-title {
+    font-size: 0.8rem;
+}
+
+.stat {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.stat-desc {
+    font-size: 0.55rem;
+}
+
+.navbar {
+    margin-bottom: 3.5rem;
+}
+
+.dateFilter {
+    max-width: 3rem;
+    max-height: 2rem;
+    font-size: 0.75rem;
+}
+
+.rows {
+    height: 2rem !important;
+    min-height: 2rem !important;
+}
+
+#reader {
+    display: none;               /* hidden by default; shown when scanning starts */
+    position: fixed;             /* take it out of normal layout flow */
+    top: 0;                      /* anchor to top of viewport */
+    left: 0;                     /* anchor to left of viewport */
+    width: 100vw;                /* full viewport width */
+    height: 100vh;               /* full viewport height */
+    background: black;           /* optional: black behind video feed */
+    z-index: 9999;              /* make sure it’s on top of everything else */
+}
+
+/* Optional: a close button or overlay text can go on top */
+#closeBtn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 10000;
+    background: rgba(0,0,0,0.5);
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+
+/* =========================
+   3) INTL-TEL-INPUT DROPDOWN OVERRIDES
+   ========================= */
+
+/* 
+  The main country list => styled like a DaisyUI card,
+  with base-100 background, theme-based rounding, etc.
+*/
+.iti__country-list {
+    @apply bordered bg-base-100 text-base-content
+    shadow rounded-box
+    max-h-64 overflow-auto p-0
+    border-base-300;
+}
+
+/* Custom scrollbar in the dropdown */
+.iti__country-list::-webkit-scrollbar {
+    @apply w-2; /* narrower scrollbar */
+}
+.iti__country-list::-webkit-scrollbar-track {
+    @apply bg-base-300;
+}
+.iti__country-list::-webkit-scrollbar-thumb {
+    @apply bg-base-content/30 rounded;
+}
+.iti__country-list::-webkit-scrollbar-thumb:hover {
+    @apply bg-base-content/50;
+}
+
+/* Each country row => spacing + hover states */
+.iti__country {
+    @apply px-3 py-2 cursor-pointer;
+}
+.iti__country:hover,
+.iti__country.iti__highlight {
+    @apply bg-base-200;
+}
+.iti__country.iti__active {
+    @apply bg-base-200 font-semibold;
+}
+
+/* Divider line inside the dropdown */
+.iti__divider {
+    @apply divider my-1 mx-3;
+    border-bottom: 0 !important; /* ensure no extra line below */
+}
+
+/* Smaller dial codes, plus spacing around the flag icon */
+.iti__dial-code {
+    @apply text-sm text-gray-400;
+}
+.iti__flag-box {
+    @apply mr-2;
+}
+
+/* If using "separate dial code" mode => style the selected flag box like a button */
+.iti--separate-dial-code .iti__selected-flag {
+    @apply bg-base-200 text-base-content
+    rounded-btn
+    px-2 py-1
+    border border-base-300;
+}
+.iti--separate-dial-code .iti__selected-flag:hover {
+    @apply bg-base-300;
+}
+
+
+/* =========================
+   4) RESPONSIVE MEDIA QUERIES
+   ========================= */
+
+/* For the .btn.download => only larger screens override DaisyUI's default ~3rem */
+@media (min-width: 768px) { /* md */
+    .btn.download {
+        height: 4rem !important;
+    }
+    .main {
+        padding: 2rem !important;
+    }
+}
+@media (min-width: 1024px) { /* lg */
+    .btn.download {
+        margin-top: 1rem;
+        height: 5rem !important;
+    }
+    .main {
+        padding: 3rem !important;
+    }
+}
+
+/* For the .iti__country-list => custom widths at breakpoints */
+@media (min-width: 500px) {
+    .iti__country-list {
+        white-space: normal !important;
+        width: 18.5rem !important; /* e.g. ~288px wide at 500px+ screens */
+    }
+    
+    .dateFilter {
+        max-width: 8rem;
+    }
+}
+@media (min-width: 768px) {
+    .iti__country-list {
+        white-space: normal !important;
+        width: 18.5rem !important; /* e.g. ~288px wide at md */
+    }
+}
+@media (min-width: 1024px) {
+    .iti__country-list {
+        white-space: normal !important;
+        width: 22.5rem !important; /* e.g. ~352px wide at lg */
+    }
+}

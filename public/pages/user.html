@@ -1,0 +1,414 @@
+<!-- 3) USER SECTION (hidden until login confirms "user") -->
+<section id="user-section" class="hidden">
+
+    <!-- (3a) USER DASHBOARD PAGE -->
+    <div
+            id="user-dashboard-page"
+            class="main bg-base-200 min-h-screen p-4 items-center gap-4"
+    >
+        <div class="card shadow-lg bg-base-100 max-w-md lg:max-w-lg mx-auto">
+            <div class="card-body">
+                <div class="flex justify-between items-start">
+                    <!-- Left block (Dashboard Title) -->
+                    <div>
+                        <h1
+                                class="card-title text-2xl"
+                                data-i18n="user.dashboard.title"
+                        >
+                            Dashboard
+                        </h1>
+                    </div>
+
+                    <!-- Right block (Location) -->
+                    <div id="location" class="text-right hidden">
+                        <!-- "Location:" label -->
+                        <p class="font-semibold" data-i18n="user.dashboard.locationLabel">
+                            Location:
+                        </p>
+                        <!-- Location name display -->
+                        <p id="location-name-display" class="text-sm"></p>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <!-- Status Paragraph (optional default text) -->
+                <p
+                        id="status"
+                        class="text-m mt-6 text-center"
+                >
+                    <!-- Populated by JS, if needed -->
+                </p>
+
+                <!-- Countdown Timer (hidden by default) -->
+                <div id="session-timer-container" class="hidden mt-3 mb-6 text-center">
+          <span class="countdown font-mono text-2xl">
+            <span id="hours" style="--value:0;"></span>:
+            <span id="minutes" style="--value:0;"></span>:
+            <span id="seconds" style="--value:0;"></span>
+          </span>
+                </div>
+
+                <!-- Start/Stop Buttons (hidden by default) -->
+                <div id="check-in-section" class="mt-4 flex flex-col gap-4 hidden w-full">
+                    <!-- Start Button -->
+                    <button
+                            class="btn btn-success"
+                            id="btn-start"
+                            onclick="startSession()"
+                            data-i18n="user.dashboard.btnStart"
+                    >
+                        Start
+                    </button>
+
+                    <!-- Stop Button -->
+                    <button
+                            class="btn btn-error"
+                            id="btn-stop"
+                            onclick="stopSession()"
+                            disabled
+                            data-i18n="user.dashboard.btnStop"
+                    >
+                        Stop
+                    </button>
+
+                    <!-- Go To Report Button (hidden by default) -->
+                    <button
+                            class="btn hidden"
+                            id="btn-goto-report"
+                            onclick="showUserHistory()"
+                            data-i18n="user.dashboard.report"
+                    >
+                        Go to report
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- (3b) USER HISTORY PAGE (hidden by default) -->
+    <div
+            id="user-history-page"
+            class="hidden main bg-base-200 min-h-screen p-4 items-center gap-4"
+    >
+        <div
+                class="card compact shadow-lg bg-base-100 max-w-md lg:max-w-lg mx-auto"
+                style="margin-bottom: 4rem;"
+        >
+            <div class="card-body">
+                <!-- "Report" heading -->
+                <h2
+                        class="card-title text-2xl"
+                        data-i18n="user.history.title"
+                >
+                    Report
+                </h2>
+
+                <!-- Stats Widget -->
+                <div id="user-stats-widget" class="stats shadow mt-4">
+                    <!-- 1) Locations Visited -->
+                    <div class="stat">
+                        <div
+                                class="stat-title"
+                                data-i18n="user.history.stats.locations.title"
+                        >
+                            Locations
+                        </div>
+                        <div
+                                class="stat-value text-primary"
+                                id="stats-locations-visited"
+                        >
+                            0
+                        </div>
+                        <div
+                                class="stat-desc"
+                                data-i18n="user.history.stats.locations.desc"
+                        >
+                            all time
+                        </div>
+                    </div>
+
+                    <!-- 2) Total Hours -->
+                    <div class="stat">
+                        <div
+                                class="stat-title"
+                                data-i18n="user.history.stats.hours.title"
+                        >
+                            Hours
+                        </div>
+                        <div
+                                class="stat-value text-secondary"
+                                id="stats-total-hours"
+                        >
+                            0
+                        </div>
+                        <div
+                                class="stat-desc"
+                                data-i18n="user.history.stats.hours.desc"
+                        >
+                            spent in sessions
+                        </div>
+                    </div>
+
+                    <!-- 3) Total Check-Ins -->
+                    <div class="stat">
+                        <div
+                                class="stat-title"
+                                data-i18n="user.history.stats.checkIns.title"
+                        >
+                            Check-Ins
+                        </div>
+                        <div
+                                class="stat-value text-accent"
+                                id="stats-total-checkins"
+                        >
+                            0
+                        </div>
+                        <div
+                                class="stat-desc"
+                                data-i18n="user.history.stats.checkIns.desc"
+                        >
+                            since sign up
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Single-row filter + CSV Download -->
+                <div class="flex items-center gap-2 mt-2">
+                    <!-- Start Date -->
+                    <label for="start-date-input" class="label">
+            <span
+                    class="label-text"
+                    data-i18n="user.history.filters.startLabel"
+            >
+              Start
+            </span>
+                    </label>
+                    <input
+                            id="start-date-input"
+                            type="date"
+                            class="input input-bordered dateFilter"
+                            onchange="loadUserSessionHistory()"
+                    />
+
+                    <!-- End Date -->
+                    <label for="end-date-input" class="label">
+            <span
+                    class="label-text"
+                    data-i18n="user.history.filters.endLabel"
+            >
+              End
+            </span>
+                    </label>
+                    <input
+                            id="end-date-input"
+                            type="date"
+                            class="input input-bordered dateFilter"
+                            onchange="loadUserSessionHistory()"
+                    />
+
+                    <!-- CSV Download Icon/Button -->
+                    <button
+                            class="btn btn-primary btn-sm ml-auto"
+                            onclick="exportCSVFromBackend()"
+                    >
+                        <!-- Icon -->
+                        <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke-width="1.5"
+                                stroke="currentColor"
+                                class="size-6"
+                        >
+                            <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
+                            />
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Session History Table -->
+                <div class="overflow-x-auto mt-2">
+                    <table class="table table-compact table-zebra w-full">
+                        <thead>
+                        <tr>
+                            <th
+                                    onclick="sortUserSessionsBy('start_time')"
+                                    class="cursor-pointer"
+                                    data-i18n="user.history.table.dateTime"
+                            >
+                                Date/Time
+                            </th>
+                            <th
+                                    onclick="sortUserSessionsBy('duration')"
+                                    class="cursor-pointer"
+                                    data-i18n="user.history.table.duration"
+                            >
+                                Duration
+                            </th>
+                            <th
+                                    onclick="sortUserSessionsBy('locationName')"
+                                    class="cursor-pointer"
+                                    data-i18n="user.history.table.location"
+                            >
+                                Location
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody id="user-session-history-list">
+                        <!-- Rows will be added by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- (3c) USER SETTINGS PAGE (hidden by default) -->
+    <div id="user-settings-page" class="hidden main bg-base-200 min-h-screen p-4 items-center gap-4">
+        <div class="card shadow-lg bg-base-100 max-w-md lg:max-w-lg mx-auto">
+            <div class="card-body">
+                <!-- data-i18n key for "Settings" -->
+                <h2 class="card-title text-2xl" data-i18n="settings.title">Settings</h2>
+
+                <!-- Locale selection -->
+                <label class="block font-semibold mt-4" data-i18n="settings.languageLabel">Language</label>
+                <select
+                        class="select select-bordered w-full max-w-xs"
+                        onchange="changeLocale(this.value)"
+                >
+                    <!-- Each option gets its own data-i18n if you want them translated as well -->
+                    <option value="en" data-i18n="settings.languages.en">English</option>
+                    <option value="it" data-i18n="settings.languages.it" selected>Italian</option>
+                </select>
+
+                <!-- Quick theme switch example (DaisyUI) -->
+                <label class="block font-semibold mt-2" data-i18n="settings.themeLabel">Theme</label>
+                <select
+                        class="select select-bordered w-full max-w-xs"
+                        onchange="changeTheme(this.value)"
+                >
+                    <option data-i18n="settings.themes.light" value="light">Light</option>
+                    <option data-i18n="settings.themes.dark" value="dark" selected>Dark</option>
+                    <option data-i18n="settings.themes.wireframe" value="wireframe">Retro</option>
+                    <option data-i18n="settings.themes.valentine" value="valentine">Valentine</option>
+                    <option data-i18n="settings.themes.arcanode" value="arcanode">Arcanode</option>
+                </select>
+                <div class="divider"></div>
+
+                <div class="flex justify-between items-start">
+                    <!-- Left block (Phone) -->
+                    <div>
+                        <p class="font-semibold" data-i18n="settings.phoneLabel">Phone</p>
+                        <p id="my-phone-display" class="text-sm">Loading...</p>
+                    </div>
+
+                    <!-- Right block (Version) -->
+                    <div class="text-right">
+                        <p class="font-semibold" data-i18n="settings.versionLabel">Version</p>
+                        <p
+                                id="pwa-version"
+                                class="text-sm"
+                                style="text-align: right"
+                                data-i18n="settings.versionNumber"
+                        >
+                            v1.0.0
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Link to your Website or Customer Service -->
+                <div class="mt-4 flex flex-col items-center">
+                    <label class="block font-semibold mt-2" data-i18n="settings.needHelpLabel">Need Help?</label>
+                    <a
+                            href="https://example.com/support"
+                            target="_blank"
+                            class="text-sm text-blue-600 underline"
+                            data-i18n="settings.supportLink"
+                    >
+                        Visit Our Support Page
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <!-- 4) USER BOTTOM NAV (hidden by default) -->
+    <div id="user-btm-nav" class="btm-nav hidden">
+        <!-- 1) Dashboard -->
+        <button
+                id="btn-user-dashboard"
+                class="active"
+                onclick="showUserDashboard()"
+        >
+            <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="size-6"
+            >
+                <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
+                />
+            </svg>
+        </button>
+
+        <!-- 2) History -->
+        <button
+                id="btn-user-history"
+                class="disabled"
+                onclick="showUserHistory()"
+        >
+            <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="size-6"
+            >
+                <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+                />
+            </svg>
+        </button>
+
+        <!-- 3) Settings -->
+        <button
+                id="btn-user-settings"
+                onclick="showUserSettings()"
+        >
+            <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="size-6"
+            >
+                <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z"
+                />
+                <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                />
+            </svg>
+        </button>
+    </div>
+</footer>

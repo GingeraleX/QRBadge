@@ -1,0 +1,409 @@
+<!-- 3b) ADMIN SECTION (hidden until login confirms "admin") -->
+<section id="admin-section" class="hidden">
+    <!-- Admin: USERS PAGE -->
+    <div id="admin-users-page" class="main bg-base-200 min-h-screen p-4 items-center gap-4">
+        <div class="card shadow-lg bg-base-100 max-w-md lg:max-w-lg mx-auto" style="margin-bottom: 4rem;">
+            <div class="card-body">
+                <!-- data-i18n key for "User Management" -->
+                <h2 class="card-title text-2xl" data-i18n="admin.usersPage.title">User Management</h2>
+
+                <!-- Pending Approvals -->
+                <h3 class="text-xl mt-4" data-i18n="admin.usersPage.pendingApprovals">Pending Approvals</h3>
+                <div id="pending-approvals" class="mt-3 space-y-2"></div>
+
+                <div class="divider"></div>
+
+                <!-- Registered Users -->
+                <h3 class="text-xl mt-4" data-i18n="admin.usersPage.registeredUsers">Registered Users</h3>
+                <div id="users-list" class="mt-3 space-y-2"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin: SESSIONS PAGE (hidden by default) -->
+    <div
+            id="admin-sessions-page"
+            class="hidden main bg-base-200 min-h-screen p-4 items-center gap-4"
+    >
+        <div
+                class="card shadow-lg bg-base-100 max-w-md lg:max-w-lg mx-auto" style="margin-bottom: 4rem;"
+        >
+            <div class="card-body">
+                <!-- data-i18n key for "Sessions" -->
+                <h2 class="card-title text-2xl" data-i18n="admin.sessionsPage.title">Sessions</h2>
+
+                <!-- Active Sessions -->
+                <h3 class="text-xl mt-4" data-i18n="admin.sessionsPage.activeSessions">Active Sessions</h3>
+                <div id="active-sessions" class="mt-3 space-y-2"></div>
+
+                <div class="divider"></div>
+
+                <!-- Session History + Filters -->
+                <h3 class="text-xl mt-4" data-i18n="admin.sessionsPage.sessionHistory">Session History</h3>
+
+                <!-- Single-row filters + CSV Download -->
+                <div class="flex flex-wrap items-center gap-2 mt-2">
+                    <!-- User ID -->
+                    <label for="user-id-input" class="label">
+                        <span class="label-text" data-i18n="admin.sessionsPage.filters.userIdLabel">User ID</span>
+                    </label>
+                    <input
+                            id="user-id-input"
+                            type="number"
+                            class="input input-bordered dateFilter"
+                            data-i18n-placeholder="admin.sessionsPage.filters.placeholderOptional"
+                            placeholder="optional"
+                            onchange="loadSessionHistory()"
+                    />
+
+                    <!-- Location ID -->
+                    <label for="location-id-input" class="label">
+                        <span class="label-text"
+                              data-i18n="admin.sessionsPage.filters.locationIdLabel">Location ID</span>
+                    </label>
+                    <input
+                            id="location-id-input"
+                            type="number"
+                            class="input input-bordered dateFilter"
+                            data-i18n-placeholder="admin.sessionsPage.filters.placeholderOptional"
+                            placeholder="optional"
+                            onchange="loadSessionHistory()"
+                    />
+
+                    <!-- Start Date -->
+                    <label for="admin-start-date-input" class="label">
+                        <span class="label-text" data-i18n="admin.sessionsPage.filters.startLabel">Start</span>
+                    </label>
+                    <input
+                            id="admin-start-date-input"
+                            type="date"
+                            class="input input-bordered dateFilter"
+                            onchange="loadSessionHistory()"
+                    />
+
+                    <!-- End Date -->
+                    <label for="admin-end-date-input" class="label">
+                        <span class="label-text" data-i18n="admin.sessionsPage.filters.endLabel">End</span>
+                    </label>
+                    <input
+                            id="admin-end-date-input"
+                            type="date"
+                            class="input input-bordered dateFilter"
+                            onchange="loadSessionHistory()"
+                    />
+
+                    <!-- Rows per Page Selector -->
+                        <label class="label">
+                            <span class="label-text" data-i18n="admin.sessionsPage.filters.rows">Rows per page</span>
+                        </label>
+                        <select id="rows-per-page-select" class="rows select select-bordered" onchange="onRowsPerPageChange()">
+                            <option value="5" selected>5</option>
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                        </select>
+
+                    <!-- CSV Download Icon/Button -->
+                    <button class="btn btn-primary btn-sm ml-auto" onclick="exportCSVFromBackend()">
+                        <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke-width="1.5"
+                                stroke="currentColor"
+                                class="size-6"
+                        >
+                            <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
+                            />
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Session History Table -->
+                <div class="overflow-x-auto mt-4">
+                    <table class="table table-compact table-zebra w-full">
+                        <thead>
+                        <tr>
+                            <th onclick="sortAdminSessionsBy('start_time')" class="cursor-pointer"
+                                data-i18n="admin.sessionsPage.columns.startTime">Start Time
+                            </th>
+                            <!-- 
+                              Uncomment if you want to show End Time as well 
+                              <th onclick="sortSessionsBy('end_time')" class="cursor-pointer" data-i18n="admin.sessionsPage.columns.endTime">End Time</th>
+                            -->
+                            <th onclick="sortAdminSessionsBy('duration')" class="cursor-pointer"
+                                data-i18n="admin.sessionsPage.columns.duration">Duration
+                            </th>
+                            <th onclick="sortAdminSessionsBy('userId')" class="cursor-pointer"
+                                data-i18n="admin.sessionsPage.columns.userId">User ID
+                            </th>
+                            <th onclick="sortAdminSessionsBy('locationId')" class="cursor-pointer"
+                                data-i18n="admin.sessionsPage.columns.location">Location
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody id="session-history-list">
+                        <!-- Rows will be populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination Controls -->
+                <div class="mt-3 flex justify-center">
+                    <!-- Page Buttons (using DaisyUI button group) -->
+                    <div class="btn-group" id="pagination-controls">
+                        <!-- Will be populated by JS (Prev / Page # / Next) -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin: LOCATIONS PAGE (hidden by default) -->
+    <div id="admin-locations-page" class="hidden main bg-base-200 min-h-screen p-4 items-center gap-4">
+        <div class="card shadow-lg bg-base-100 max-w-md lg:max-w-lg mx-auto" style="margin-bottom: 4rem;">
+            <div class="card-body">
+                <!-- data-i18n key for "Locations" -->
+                <h2 class="card-title text-2xl" data-i18n="admin.locationsPage.title">Locations</h2>
+
+                <!-- Create location & generate QR -->
+                <div class="mt-6">
+                    <label id="location-label" class="block" data-i18n="admin.locationsPage.locationNameLabel">Name of Location:</label>
+                    <!-- Form for new location -->
+                    <form id="location-form" onsubmit="event.preventDefault(); createLocation();">
+                        <div class="flex flex-row items-start sm:items-center gap-4 mt-4">
+                            <input
+                                    id="new-location-name"
+                                    class="input input-bordered w-full sm:flex-1"
+                                    data-i18n-placeholder="admin.locationsPage.placeholderLocationName"
+                                    placeholder="e.g. My Office"
+                            />
+                            <button
+                                    class="btn btn-primary"
+                                    type="submit"
+                                    data-i18n="admin.locationsPage.btnCreateGenerateQr"
+                            >
+                                Create and Generate QR
+                            </button>
+                        </div>
+                    </form>
+
+                    <div
+                            id="qr-section"
+                            class="mt-6 hidden animate__animated animate__fadeIn"
+                    >
+                        <div class="card-body items-center text-center">
+                            <div class="inline-block bg-white p-4 rounded-xl overflow-hidden">
+                                <div id="qr-container"></div>
+                                <!-- QR Download Icon/Button -->
+                                <button id="downloadLink" class="btn-lg btn mt-4">
+                                    <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke-width="1.5"
+                                            stroke="currentColor"
+                                            class="size-6"
+                                    >
+                                        <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
+                                        />
+                                    </svg>
+                                </button>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <h3 class="text-xl mt-4" data-i18n="admin.locationsPage.myLocations">
+                        My Locations
+                    </h3>
+
+                    <!-- This container will hold the table, but also scroll if needed -->
+                    <div class="overflow-x-auto mt-3" id="admin-locations-list">
+                        <!-- Table is appended by JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin: SETTINGS PAGE (hidden by default) -->
+    <div id="admin-settings-page" class="hidden main bg-base-200 min-h-screen p-4 items-center gap-4">
+        <div class="card shadow-lg bg-base-100 max-w-md lg:max-w-lg mx-auto" style="margin-bottom: 4rem;">
+            <div class="card-body">
+                <!-- data-i18n key for "Settings" -->
+                <h2 class="card-title text-2xl" data-i18n="settings.title">Settings</h2>
+
+                <!-- Locale selection -->
+                <label class="block font-semibold mt-4" data-i18n="settings.languageLabel">Language</label>
+                <select
+                        class="select select-bordered w-full max-w-xs"
+                        onchange="changeLocale(this.value)"
+                >
+                    <!-- Each option gets its own data-i18n if you want them translated as well -->
+                    <option value="en" data-i18n="settings.languages.en">English</option>
+                    <option value="it" data-i18n="settings.languages.it" selected>Italian</option>
+                </select>
+
+                <!-- Quick theme switch example (DaisyUI) -->
+                <label class="block font-semibold mt-2" data-i18n="settings.themeLabel">Theme</label>
+                <select
+                        class="select select-bordered w-full max-w-xs"
+                        onchange="changeTheme(this.value)"
+                >
+                    <option data-i18n="settings.themes.light" value="light">Light</option>
+                    <option data-i18n="settings.themes.dark" value="dark" selected>Dark</option>
+                    <option data-i18n="settings.themes.wireframe" value="wireframe">Retro</option>
+                    <option data-i18n="settings.themes.valentine" value="valentine">Valentine</option>
+                    <option data-i18n="settings.themes.arcanode" value="arcanode">Arcanode</option>
+                </select>
+                
+                <div class="divider"></div>
+
+                <label class="block font-semibold" data-i18n="settings.users">Users</label>
+
+                <label class="flex items-center space-x-3 mt-2 cursor-pointer">
+                    <input type="checkbox" checked="checked" class="toggle toggle-primary" id="toggle-timer" onchange="updateAdminSettings()" />
+                    <span data-i18n="settings.displayTimer">Display Timer</span>
+                </label>
+
+                <label class="flex items-center space-x-3 mt-2 cursor-pointer">
+                    <input type="checkbox" checked="checked" class="toggle toggle-primary" id="toggle-report" onchange="updateAdminSettings()" />
+                    <span data-i18n="settings.userReportPage">User Report Page</span>
+                </label>
+
+                <div class="divider"></div>
+
+                <div class="flex justify-between items-start">
+                    <!-- Left block (Phone) -->
+                    <div>
+                        <p class="font-semibold" data-i18n="settings.phoneLabel">Phone</p>
+                        <p id="my-admin-phone-display" class="text-sm">Loading...</p>
+                    </div>
+
+                    <!-- Right block (Version) -->
+                    <div class="text-right">
+                        <p class="font-semibold" data-i18n="settings.versionLabel">Version</p>
+                        <p
+                                id="pwa-version"
+                                class="text-sm"
+                                style="text-align: right"
+                                data-i18n="settings.versionNumber"
+                        >
+                            v1.0.0
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Link to your Website or Customer Service -->
+                <div class="mt-4 flex flex-col items-center">
+                    <label class="block font-semibold mt-2" data-i18n="settings.needHelpLabel">Need Help?</label>
+                    <a
+                            href="https://example.com/support"
+                            target="_blank"
+                            class="text-sm text-blue-600 underline"
+                            data-i18n="settings.supportLink"
+                    >
+                        Visit Our Support Page
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <!-- 5) ADMIN BOTTOM NAV (hidden by default) -->
+    <div id="admin-btm-nav" class="btm-nav hidden">
+        <!-- 1) Admin Users -->
+        <button id="btn-admin-users" class="active" onclick="showAdminUsers()">
+            <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="size-6"
+            >
+                <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z"
+                />
+            </svg>
+            <!-- Optional SR-only text for accessibility -->
+            <!-- <span class="sr-only" data-i18n="admin.footerNav.users">Users</span> -->
+        </button>
+
+        <!-- 2) Admin Sessions -->
+        <button id="btn-admin-sessions" onclick="showAdminSessions()">
+            <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="size-6"
+            >
+                <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+                />
+            </svg>
+            <!-- <span class="sr-only" data-i18n="admin.footerNav.sessions">Sessions</span> -->
+        </button>
+
+        <!-- 3) Admin Locations -->
+        <button id="btn-admin-locations" onclick="showAdminLocations()">
+            <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="size-6"
+            >
+                <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
+                />
+            </svg>
+            <!-- <span class="sr-only" data-i18n="admin.footerNav.locations">Locations</span> -->
+        </button>
+
+        <!-- 4) Admin Settings -->
+        <button id="btn-admin-settings" onclick="showAdminSettings()">
+            <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="size-6"
+            >
+                <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z"
+                />
+                <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                />
+            </svg>
+            <!-- <span class="sr-only" data-i18n="admin.footerNav.settings">Settings</span> -->
+        </button>
+    </div>
+</footer>

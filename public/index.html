@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>GeoQR</title>
+
+
+    <!-- Intl Tel Input CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/css/intlTelInput.css">
+
+    <!-- Tailwind + DaisyUI -->
+    <link rel="stylesheet" href="./css/tailwind.css"/>
+    
+    <!-- QQRCode libraries (reader + writer) -->
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+
+    <!-- Intl Tel Input JS -->
+    <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/js/intlTelInput.min.js"></script>
+    <!-- Optional utils script for formatting/validation -->
+    <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/js/utils.js"></script>
+    
+    <!-- Load i18next -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/i18next/24.2.1/i18next.min.js"></script>
+    
+    <!-- Scripts -->
+    <script src="./js/utils.js"></script>
+    <script src="./js/geolocation.js"></script>
+    <script src="./js/user.js"></script>
+    <script src="./js/admin.js"></script>
+    <script src="./js/ui.js"></script>
+    <script src="./js/theme.js"></script>
+    <script src="./js/phone.js"></script>
+    <script src="./js/modal.js"></script>
+    <script src="./js/sort.js"></script>
+    <script src="./js/csv.js"></script>
+    <script src="./js/localization.js"></script>
+    <script src="./js/qr.js"></script>
+    <script src="./js/load.js"></script>
+
+</head>
+
+<!-- Container for html5-qrcode fallback -->
+<div id="reader" style="display: none;">
+        <button class="btn" type="button" onclick="stopWebScan()">
+            Close
+        </button>
+</div>
+
+<body class="bg-base-200 min-h-screen flex flex-col">
+<!-- The container where we inject partial HTML -->
+<main id="app">
+    <!-- Content from partials will appear here -->
+</main>
+</body>
+</html>
