@@ -55,7 +55,8 @@
       "adminIdUserIdNewNameRequired": "Admin ID, User ID, and newName are required.",
       "noAdminUserLink": "No admin-user link found.",
       "adminIdUserIdRequired": "Admin ID and User ID are required.",
-      "bannedUntil": "Banned until {{bannedUntil}}. Cannot re-request now."
+      "bannedUntil": "Banned until {{bannedUntil}}. Cannot re-request now.",
+      "deviceIdMismatch": "Device ID mismatch! You cannot switch to another device for this account."
     },
     "status": {
       "notFound": "not_found"

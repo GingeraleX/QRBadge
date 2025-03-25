@@ -73,6 +73,15 @@ exports.requestApproval = (req, res) => {
                 }
             );
         } else {
+
+            // If user already has a deviceId, check if it matches this request:
+            if (existing.deviceId !== deviceId) {
+          	// We do NOT allow deviceId changes => reject
+                return res.status(400).json({
+                error: t("user.errors.deviceIdMismatch"),
+          	});
+            }
+
             // Update existing user
             const updatedName = displayName ?? existing.displayName;
             const updatedDev = deviceId ?? existing.deviceId;

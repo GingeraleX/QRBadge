@@ -55,7 +55,8 @@
       "adminIdUserIdNewNameRequired": "Sono richiesti l'ID Admin, l'ID Utente e il nuovo nome.",
       "noAdminUserLink": "Nessun collegamento admin-utente trovato.",
       "adminIdUserIdRequired": "Sono richiesti l'ID Admin e l'ID Utente.",
-      "bannedUntil": "Bannato fino al {{bannedUntil}}. Impossibile ripresentare la richiesta ora."
+      "bannedUntil": "Bannato fino al {{bannedUntil}}. Impossibile ripresentare la richiesta ora.",
+      "deviceIdMismatch": "Device ID non corrispondente! Non è possibile passare a un altro dispositivo per questo account."
     },
     "status": {
       "notFound": "not_found"
