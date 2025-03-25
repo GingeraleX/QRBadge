@@ -46,58 +46,178 @@ exports.checkUserStatus = (req, res) => {
 };
 
 exports.requestApproval = (req, res) => {
-    const { t } = req;
-    const { adminId, contactNumber, displayName, deviceId } = req.body;
+  const { t } = req;
+  const { adminId, contactNumber, displayName, deviceId } = req.body;
 
-    if (!adminId || !contactNumber) {
-        return res.status(400).json({
-            error: t("user.errors.adminIdContactNumberRequired")
-        });
-    }
-
-    db.get(`SELECT * FROM users WHERE contactNumber=?`, [contactNumber], (err, existing) => {
-        if (err) {
-            return res.status(500).json({ error: err.message });
-        }
-
-        if (!existing) {
-            // Create new user
-            db.run(
-                `INSERT INTO users (displayName, contactNumber, deviceId) VALUES (?, ?, ?)`,
-                [displayName || "", contactNumber, deviceId || ""],
-                function (insertErr) {
-                    if (insertErr) {
-                        return res.status(500).json({ error: insertErr.message });
-                    }
-                    handleBridging(adminId, this.lastID, res, t);
-                }
-            );
-        } else {
-
-            // If user already has a deviceId, check if it matches this request:
-            if (existing.deviceId !== deviceId) {
-          	// We do NOT allow deviceId changes => reject
-                return res.status(400).json({
-                error: t("user.errors.deviceIdMismatch"),
-          	});
-            }
-
-            // Update existing user
-            const updatedName = displayName ?? existing.displayName;
-            const updatedDev = deviceId ?? existing.deviceId;
-            db.run(
-                `UPDATE users SET displayName=?, deviceId=? WHERE id=?`,
-                [updatedName, updatedDev, existing.id],
-                (updErr) => {
-                    if (updErr) {
-                        return res.status(500).json({ error: updErr.message });
-                    }
-                    handleBridging(adminId, existing.id, res, t);
-                }
-            );
-        }
+  if (!adminId || !contactNumber) {
+    return res.status(400).json({
+      error: t("user.errors.adminIdContactNumberRequired"),
     });
+  }
+
+  db.get(
+    `SELECT * FROM users WHERE contactNumber=?`,
+    [contactNumber],
+    (err, existingUser) => {
+      if (err) {
+        return res.status(500).json({ error: err.message });
+      }
+
+      // ------------------------------------------------------------
+      // (A) If no existing user => create a new user
+      // ------------------------------------------------------------
+      if (!existingUser) {
+        db.run(
+          `INSERT INTO users (displayName, contactNumber, deviceId)
+           VALUES (?, ?, ?)`,
+          [displayName || "", contactNumber, deviceId || ""],
+          function (insertErr) {
+            if (insertErr) {
+              return res.status(500).json({ error: insertErr.message });
+            }
+            handleBridging(adminId, this.lastID, res, t);
+          }
+        );
+        return;
+      }
+
+      // ------------------------------------------------------------
+      // (B) Found an existing user => check their admin_users status
+      // ------------------------------------------------------------
+      db.get(
+        `SELECT status, banned_until
+         FROM admin_users
+         WHERE admin_id=? AND user_id=?`,
+        [adminId, existingUser.id],
+        (err2, auRow) => {
+          if (err2) {
+            return res.status(500).json({ error: err2.message });
+          }
+
+          // If there's no row in admin_users, user is not linked yet => normal bridging
+          if (!auRow) {
+            // Also handle if existingUser.deviceId is empty or not:
+            return updateDeviceIfAllowed(
+              existingUser,
+              deviceId,
+              displayName,
+              null, // means no prior status
+              adminId,
+              res,
+              t
+            );
+          }
+
+          // If we do have an admin_users row => check status
+          if (auRow.status === "revoked") {
+            // --------------------------------------------
+            // (B1) If user is revoked => ALLOW changing device ID
+            //     Then set them to 'pending' so the admin
+            //     must approve them again.
+            // --------------------------------------------
+            return resetDeviceForRevokedUser(
+              existingUser,
+              deviceId,
+              displayName,
+              adminId,
+              res,
+              t
+            );
+          } else {
+            // --------------------------------------------
+            // (B2) Normal scenario (approved, pending, etc.)
+            //     => follow the usual “don’t allow changes”
+            // --------------------------------------------
+            return updateDeviceIfAllowed(
+              existingUser,
+              deviceId,
+              displayName,
+              auRow.status,
+              adminId,
+              res,
+              t
+            );
+          }
+        }
+      );
+    }
+  );
 };
+
+// ============================================================
+// Helper: reset device if user was revoked
+// ============================================================
+function resetDeviceForRevokedUser(existingUser, newDeviceId, newName, adminId, res, t) {
+  // You might also check if the banUntil has expired or not.
+  // For simplicity, let's just let them reset immediately if they're "revoked."
+  const finalName = newName || existingUser.displayName;
+  db.run(
+    `UPDATE users
+     SET displayName=?, deviceId=?
+     WHERE id=?`,
+    [finalName, newDeviceId || "", existingUser.id],
+    (updErr) => {
+      if (updErr) {
+        return res.status(500).json({ error: updErr.message });
+      }
+      // Then set admin_users to 'pending'
+      db.run(
+        `UPDATE admin_users
+         SET status='pending', banned_until=NULL
+         WHERE admin_id=? AND user_id=?`,
+        [adminId, existingUser.id],
+        (updErr2) => {
+          if (updErr2) {
+            return res.status(500).json({ error: updErr2.message });
+          }
+          return res.json({
+            message: t("user.messages.revokedDeviceReset") 
+              || "Your device has been updated. Approval requested again.",
+          });
+        }
+      );
+    }
+  );
+}
+
+// ============================================================
+// Helper: normal device-logic if user is not 'revoked'
+// ============================================================
+function updateDeviceIfAllowed(existingUser, newDeviceId, newName, existingStatus, adminId, res, t) {
+  // If the user has no deviceId in DB, set it now
+  if (!existingUser.deviceId) {
+    db.run(
+      `UPDATE users
+       SET displayName=?, deviceId=?
+       WHERE id=?`,
+      [newName || existingUser.displayName, newDeviceId || "", existingUser.id],
+      (updErr) => {
+        if (updErr) return res.status(500).json({ error: updErr.message });
+        handleBridging(adminId, existingUser.id, res, t);
+      }
+    );
+    return;
+  }
+
+  // If the user already has a deviceId => must match or fail
+  if (existingUser.deviceId !== newDeviceId) {
+    return res.status(400).json({
+      error: t("user.errors.deviceIdMismatch"),
+    });
+  }
+
+  // Otherwise same device => just update displayName if changed
+  db.run(
+    `UPDATE users SET displayName=? WHERE id=?`,
+    [newName || existingUser.displayName, existingUser.id],
+    (updErr) => {
+      if (updErr) {
+        return res.status(500).json({ error: updErr.message });
+      }
+      handleBridging(adminId, existingUser.id, res, t);
+    }
+  );
+}
 
 function handleBridging(adminId, userId, res, t) {
     db.get(
