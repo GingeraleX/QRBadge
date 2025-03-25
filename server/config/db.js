@@ -4,12 +4,19 @@
  */
 
 const sqlite3 = require("sqlite3").verbose();
-
 const path = require("path");
-const dbPath = path.join(__dirname, "../../data/qr_system.db");
+const fs = require("fs");
+
+const dataDir = path.join(__dirname, "../../data");
+if (!fs.existsSync(dataDir)) {
+  fs.mkdirSync(dataDir, { recursive: true });
+}
+
+const dbPath = path.join(dataDir, "qr_system.db");
+
 const db = new sqlite3.Database(dbPath, (err) => {
   if (err) console.error("DB Connection Error:", err.message);
-  else console.log("Connected to qr_system.db");
+  else console.log("Connected to", dbPath);
 });
 
 function setupDB() {
