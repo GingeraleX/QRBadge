@@ -56,7 +56,7 @@
       "noAdminUserLink": "Nessun collegamento admin-utente trovato.",
       "adminIdUserIdRequired": "Sono richiesti l'ID Admin e l'ID Utente.",
       "bannedUntil": "Bannato fino al {{bannedUntil}}. Impossibile ripresentare la richiesta ora.",
-      "deviceIdMismatch": "Device ID non corrispondente! Non è possibile passare a un altro dispositivo per questo account."
+      "deviceIdMismatch": "ID dispositivo non corrispondente! Non puoi cambiare il tuo dispositivo. Contatta l'admin."
     },
     "status": {
       "notFound": "not_found"
@@ -65,7 +65,8 @@
       "approvalRequestSent": "Richiesta di approvazione inviata. Contatta l'admin.",
       "deviceChangedStatus": "ID dispositivo modificato. Ricarica la pagina. Il tuo stato = {{status}}.",
       "displayNameUpdated": "Nome utente aggiornato.",
-      "userRevoked": "Utente revocato (storico conservato)."
+      "userRevoked": "Utente revocato",
+      "revokedDeviceReset": "Reimpostazione del dispositivo consentita poiché eri revocato. La tua approvazione è di nuovo in attesa."
     }
   }
 }

@@ -56,7 +56,7 @@
       "noAdminUserLink": "No admin-user link found.",
       "adminIdUserIdRequired": "Admin ID and User ID are required.",
       "bannedUntil": "Banned until {{bannedUntil}}. Cannot re-request now.",
-      "deviceIdMismatch": "Device ID mismatch! You cannot switch to another device for this account."
+      "deviceIdMismatch": "Device ID mismatch! You cannot change your device. Contact admin."
     },
     "status": {
       "notFound": "not_found"
@@ -65,7 +65,8 @@
       "approvalRequestSent": "Approval request sent. Contact admin.",
       "deviceChangedStatus": "Device ID changed. Refresh the page. Your status = {{status}}.",
       "displayNameUpdated": "User display name updated.",
-      "userRevoked": "User revoked (history remains)."
+      "userRevoked": "User revoked",
+      "revokedDeviceReset": "Device reset allowed because you were revoked. Your approval is pending again."
     }
   }
 }
