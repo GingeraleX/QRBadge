@@ -4,8 +4,8 @@
  */
 
 // Adjust to your server's address:
-//const BASE_API_URL = "https://localhost:3000/api";
-const BASE_API_URL = "https://badge.arcanode.io/api";
+const BASE_API_URL = "http://localhost:3000/api";
+//const BASE_API_URL = "https://badge.arcanode.io/api";
 
 // At the top or somewhere globally
 window.adminLimits = {
